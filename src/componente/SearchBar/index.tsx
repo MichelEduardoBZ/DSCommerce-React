@@ -1,11 +1,33 @@
-import './style.css'
+import "./style.css";
+import { useState } from "react";
 
-export default function SeachBar(){
-    return (
-        <form className="dsc-search-bar">
-        <button type="submit">🔎︎</button>
-        <input type="text" placeholder="Nome do produto" />
-        <button type="reset">🗙</button>
-      </form>
-    );
+type Props = {
+  onSearch: Function;
+};
+
+export default function SeachBar({ onSearch }: Props) {
+
+  const [text, setText] = useState("");
+
+  function handleChange(event: any){
+    setText(event.target.value)
+  }
+
+  function handleResetClick(){
+    setText("")
+    onSearch(text);
+  }
+
+  function handleSubmit(event: any){
+    event.preventDefault();
+    onSearch(text);
+  }
+
+  return (
+    <form className="dsc-search-bar" onSubmit={handleSubmit}>
+      <button type="submit">🔎︎</button>
+      <input value={text} type="text" placeholder="Nome do produto" onChange={handleChange}/>
+      <button onClick={handleResetClick}>🗙</button>
+    </form>
+  );
 }
